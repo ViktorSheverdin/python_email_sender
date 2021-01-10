@@ -6,16 +6,6 @@ import time
 import csv
 import os
 
-# with smtplib.SMTP("smtp.mail.yahoo.com", port=587) as connection:
-#     connection.starttls()
-#     connection.login(user=credentials.sender_email,
-#                      password=credentials.password)
-#     connection.sendmail(
-#         from_addr=credentials.sender_email,
-#         to_addrs=credentials.recepient_email,
-#         msg="Subject:Hello\n\nTHis is the body"
-#     )
-
 
 def main():
     while True:
@@ -23,12 +13,7 @@ def main():
         friend_list = return_friend_list()
         for friend in friend_list:
             try:
-                print("friend month: %s day: %s" % (friend[3], friend[4]))
-                print(now.month)
-                print(now.day)
                 if now.month == int(friend[3]) and now.day == int(friend[4]):
-                    # try:
-                    print("Sending Happy bday")
                     send_happy_bday(friend)
             except IndexError:
                 print("Out of range")
@@ -57,8 +42,6 @@ def return_email_body():
 def send_happy_bday(friend):
     email_body = return_email_body()
     email_body = email_body.replace("[NAME]", friend[0], 1)
-    # print(email_body)
-    # print(quote)
     with smtplib.SMTP("smtp.mail.yahoo.com", port=587) as connection:
         connection.starttls()
         connection.login(user=credentials.sender_email,
@@ -68,14 +51,6 @@ def send_happy_bday(friend):
             to_addrs=credentials.recepient_email,
             msg=f"Subject:Happy Birthday!\n\n{email_body}"
         )
-
-
-# def return_quote():
-#     with open("quotes.txt", "r") as file:
-#         quotes = file.readlines()
-#         random_quote = random.choice(quotes)
-#         print(random_quote)
-#         return return_quote
 
 
 main()
